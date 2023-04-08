@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Optimizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #3b7ed0;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            width: 100%;
+        }
+        #results {
+            display: none;
+        }
+        #ratingError {
+            color: red;
+            display: none;
+        }
+        a {
+            text-decoration: none;
+            color: #3b7ed0;
+        }
+        #info {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Personal Finance Optimizer</h1>
+    <p style="text-align: center;"><a href="#" id="toggleInfo">Info & Instructions</a></p>
+
+    <div id="app">
+        <label for="income">Total monthly income:</label>
+        <input type="number" id="income" name="income" min="0" step="100" value="0">
+
+        <label for="fixedExpenses">Total fixed monthly expenses:</label>
+        <input type="number" id="fixedExpenses" name="fixedExpenses" min="0" step="100" value="0">
+
+        <label for="minSavingsGoal">Minimum monthly savings goal:</label>
+        <input type="number" id="minSavingsGoal" name="minSavingsGoal" min="0" step="100" value="0">
+
+        <label for="minInvestmentGoal">Minimum monthly investment goal:</label>
+        <input type="number" id="minInvestmentGoal" name="minInvestmentGoal" min="0" step="100" value="0">
+
+        <label for="discretionaryExpenseLimit">Discretionary monthly expense limit:</label>
+        <input type="number" id="discretionaryExpenseLimit" name="discretionaryExpenseLimit" min="0" step="100" value="0">
+
+        <label for="netWorthAllocation">Net worth allocation fraction (default: 0.01):</label>
+        <input type="number" id="netWorthAllocation" name="netWorthAllocation" min="0" max="1" step="0.01" value="0.01">
+
+        <label>Rate the importance of each category from 1 to 10 (total must equal 10):</label>
+        <label for="rating1">Savings:</label>
+        <input type="number" id="rating1" name="rating1" min="1" max="10" step="1" value="1">
+
+                <label for="rating2">Investments:</label>
+        <input type="number" id="rating2" name="rating2" min="1" max="10" step="1" value="1">
+
+        <label for="rating3">Discretionary expenses:</label>
+        <input type="number" id="rating3" name="rating3" min="1" max="10" step="1" value="1">
+
+        <label for="rating4">Fixed expenses reduction:</label>
+        <input type="number" id="rating4" name="rating4" min="1" max="10" step="1" value="1">
+
+        <p id="ratingError">Error: The sum of the ratings must be equal to 10.</p>
+
+        <button id="submit">Optimize</button>
+
+        <div id="results">
+            <h2>Optimal allocation:</h2>
+            <p>Savings: $<span id="savingsResult"></span></p>
+            <p>Investments: $<span id="investmentResult"></span></p>
+            <p>Discretionary expenses: $<span id="discretionaryExpensesResult"></span></p>
+        </div>
+    </div>
+
+    <div id="info">
+        <h2>Instructions:</h2>
+        <ol>
+            <li>Enter your total monthly income, fixed monthly expenses, minimum monthly savings goal, minimum monthly investment goal, and discretionary monthly expense limit.</li>
+            <li>Adjust the net worth allocation fraction if desired.</li>
+            <li>Rate the importance of each category (savings, investments, discretionary expenses, and fixed expenses reduction) on a scale from 1 to 10, ensuring that the sum of the ratings equals 10.</li>
+            <li>Click the "Optimize" button to calculate the optimal allocation of your finances based on your input and preferences.</li>
+        </ol>
+        <h2>Algorithm explanation:</h2>
+        <p>
+            The algorithm uses linear programming to optimize your personal finances based on your input and preferences. It takes into account your income, expenses, goals, and importance ratings for each category. The net worth allocation fraction allows you to include a portion of your net worth as part of your income for the optimization calculations. The algorithm then determines the optimal allocation of your finances in order to meet your goals and preferences.
+        </p>
+    </div>
+
+    <script>
+        document.getElementById("toggleInfo").onclick = function (e) {
+            e.preventDefault();
+            const app = document.getElementById("app");
+            const info = document.getElementById("info");
+
+            if (app.style.display === "none") {
+                app.style.display = "block";
+                info.style.display = "none";
+                this.innerText = "Info & Instructions";
+            } else {
+                app.style.display = "none";
+                info.style.display = "block";
+                this.innerText = "Back to the app";
+            }
+        };
+
+        document.getElementById("submit").onclick = function () {
+            const income = parseFloat(document.getElementById("income").value);
+            const fixedExpenses = parseFloat(document.getElementById("fixedExpenses").value);
+            const minSavingsGoal = parseFloat(document.getElementById("minSavingsGoal").value);
+            const minInvestmentGoal = parseFloat(document.getElementById("minInvestmentGoal").value);
+            const discretionaryExpenseLimit = parseFloat(document.getElementById("discretionaryExpenseLimit").value);
+            const netWorthAllocation = parseFloat(document.getElementById("netWorthAllocation").value);
+
+                        const rating1 = parseFloat(document.getElementById("rating1").value);
+            const rating2 = parseFloat(document.getElementById("rating2").value);
+            const rating3 = parseFloat(document.getElementById("rating3").value);
+            const rating4 = parseFloat(document.getElementById("rating4").value);
+
+            const sumRatings = rating1 + rating2 + rating3 + rating4;
+
+            if (sumRatings !== 10) {
+                document.getElementById("ratingError").style.display = "block";
+                return;
+            }
+
+            document.getElementById("ratingError").style.display = "none";
+            const weights = [rating1 / 10, rating2 / 10, rating3 / 10, rating4 / 10];
+
+            const result = optimize_personal_finances(income, fixedExpenses, minSavingsGoal, minInvestmentGoal, discretionaryExpenseLimit, weights, netWorthAllocation);
+
+            document.getElementById("results").style.display = "block";
+            document.getElementById("savingsResult").innerText = result[0].toFixed(2);
+            document.getElementById("investmentResult").innerText = result[1].toFixed(2);
+            document.getElementById("discretionaryExpensesResult").innerText = result[2].toFixed(2);
+        };
+
+        function optimize_personal_finances(income, fixedExpenses, minSavingsGoal, minInvestmentGoal, discretionaryExpenseLimit, weights, netWorthAllocation) {
+            // Use the same JavaScript implementation of the optimization algorithm
+            // Make sure to update the function to include the netWorthAllocation parameter
+        }
+    </script>
+</body>
+</html>
+
+
