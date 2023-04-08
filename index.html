@@ -1,4 +1,82 @@
-        10.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Optimizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #3b7ed0;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            width: 100%;
+        }
+        #results {
+            display: none;
+        }
+        #ratingError {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Personal Finance Optimizer</h1>
+
+    <div id="inputForm">
+        <label for="income">Enter your total monthly income:</label>
+        <input type="number" id="income" step="100" min="0">
+
+        <label for="fixed_expenses">Enter your fixed monthly expenses:</label>
+        <input type="number" id="fixed_expenses" step="100" min="0">
+
+        <label for="min_savings_goal">Enter your minimum monthly savings goal:</label>
+        <input type="number" id="min_savings_goal" step="100" min="0">
+
+        <label for="min_investment_goal">Enter your minimum monthly investment goal:</label>
+        <input type="number" id="min_investment_goal" step="100" min="0">
+
+        <label for="discretionary_expense_limit">Enter your maximum monthly discretionary expense limit:</label>
+        <input type="number" id="discretionary_expense_limit" step="100" min="0">
+
+        <label for="net_worth">Enter your total net worth:</label>
+        <input type="number" id="net_worth" step="100" min="0">
+
+        <p>Rate the importance of savings, investments, and discretionary expenses on a scale of 1-10. Ratings must add up to 10:</p>
+        <label for="rating_savings">Rating for savings:</label>
+        <input type="number" id="rating_savings" step="1" min="1" max="10">
+
+        <label for="rating_investments">Rating for investments:</label>
+        <input type="number" id="rating_investments" step="1" min="1" max="10">
+
+        <label for="rating_discretionary_expenses">Rating for discretionary expenses:</label>
+        <input type="number" id="rating_discretionary_expenses" step="1" min="1" max="10">
+
+        <p id="ratingError">Error: Ratings must add up to 10.</p>
 
         <button id="optimizeButton">Optimize</button>
     </div>
@@ -63,3 +141,4 @@
     </script>
 </body>
 </html>
+
