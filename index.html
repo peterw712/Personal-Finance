@@ -71,8 +71,12 @@
         <label for="discretionaryExpenseLimit">Discretionary monthly expense limit:</label>
         <input type="number" id="discretionaryExpenseLimit" name="discretionaryExpenseLimit" min="0" step="100" value="0">
 
-        <label for="netWorthAllocation">Net worth allocation fraction (default: 0.01):</label>
-        <input type="number" id="netWorthAllocation" name="netWorthAllocation" min="0" max="1" step="0.01" value="0.01">
+        <label for="netWorth">Net Worth:</label>
+        <input type="number" id="netWorth" name="netWorth" step="100" min="0" value="0">
+        <br><br>
+        <label for="netWorthAllocation">Net Worth Allocation:</label>
+        <input type="number" id="netWorthAllocation" name="netWorthAllocation" step="0.01" min="0" max="1" value="0.01">
+
 
         <label>Rate the importance of each category from 1 to 10 (total must equal 10):</label>
         <label for="rating1">Savings:</label>
